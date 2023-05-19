@@ -7,12 +7,24 @@
     <title>To do app</title>
 </head>
 <body>
-    <h1>Hello gurbir singh</h1>
     <h2>My to do list</h2>
-    <ol>
-        <li>Learn python</li>
-        <li>Learn Flask</li>
-        <li>Learn API</li>
-    </ol>
+    <ul>
+        {% for todo in todos %}
+        
+        <li>
+            <input type="checkbox" name="done" {% if todo['done'] %} checked {%endif%} disabled onchange="this.form.submit()">
+            <span {%if todo['done'] %} style="text-decoration: line-through" {%endif%}>{{ todo['task'] }}</span>
+            <a href="{{ url_for('check', index=loop.index0)}}">Check</a>
+            <a href="{{ url_for('edit', index=loop.index0)}}">Edit</a>
+            <a href="{{ url_for('delete', index=loop.index0)}}">Delete</a>
+
+        </li>
+        {% endfor %}
+    </ul>
+    <form action="{{ url_for('add') }}" , method="post"> 
+        <input type="text" name="todo">
+        <button type="submit">Add todo</button>
+    </form>
+
 </body>
 </html>
